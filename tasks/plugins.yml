@@ -22,6 +22,7 @@
 - name: List plugins to be updated
   shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
   register: plugins_updates
+  changed_when: plugins_updates.stdout != ''
 
 - name: Update plugins
   shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:{{ port }} install-plugin {{ item }}
